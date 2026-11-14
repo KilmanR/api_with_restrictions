@@ -1,0 +1,118 @@
+# примеры API-запросов
+
+@baseUrl = http://localhost:8000/api
+
+# ─── GET: получение объявлений ──────────────────────────
+
+# список всех объявлений
+GET {{baseUrl}}/advertisements/
+Content-Type: application/json
+
+###
+
+# ─── POST: создание объявлений ──────────────────────────
+
+# создание объявления от админа (станет id=1)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token f8d6b96215a368e4e0c493b56fcaca562a6148d1
+
+{
+  "title": "Шкаф IKEA",
+  "description": "Срочно"
+}
+
+###
+
+# создание объявления от юзера1 (станет id=2)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token a068f3e6cc78e9b4e8d71c4c9c13d291292154bc
+
+{
+  "title": "Диван-кровать",
+  "description": "Состояние хорошее"
+}
+
+###
+
+# создание объявления от юзера2 (станет id=3)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token b613896bbe5adb634e99636d4f1b8b123cc65194
+
+{
+  "title": "Велосипед",
+  "description": "Городской, 21 скорость"
+}
+
+###
+
+# ─── PATCH: редактирование (каждый правит своё) ──────────
+# для проверки пермишенов поменяй id на ЧУЖОЕ объявление
+
+# правка объявления id=1 от админа (своё)
+PATCH {{baseUrl}}/advertisements/1/
+Content-Type: application/json
+Authorization: Token f8d6b96215a368e4e0c493b56fcaca562a6148d1
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# правка объявления id=2 от юзера1 (своё)
+PATCH {{baseUrl}}/advertisements/2/
+Content-Type: application/json
+Authorization: Token a068f3e6cc78e9b4e8d71c4c9c13d291292154bc
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# правка объявления id=3 от юзера2 (своё)
+PATCH {{baseUrl}}/advertisements/3/
+Content-Type: application/json
+Authorization: Token b613896bbe5adb634e99636d4f1b8b123cc65194
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# ─── DELETE: удаление (каждый удаляет своё) ──────────────
+# для проверки пермишенов поменяй id на ЧУЖОЕ объявление
+
+# удаление объявления id=1 от админа (своё)
+DELETE {{baseUrl}}/advertisements/1/
+Authorization: Token f8d6b96215a368e4e0c493b56fcaca562a6148d1
+
+###
+
+# удаление объявления id=2 от юзера1 (своё)
+DELETE {{baseUrl}}/advertisements/2/
+Authorization: Token a068f3e6cc78e9b4e8d71c4c9c13d291292154bc
+
+###
+
+# удаление объявления id=3 от юзера2 (своё)
+DELETE {{baseUrl}}/advertisements/3/
+Authorization: Token b613896bbe5adb634e99636d4f1b8b123cc65194
+
+###
+
+# ─── Фильтрация ──────────────────────────────────────────
+
+# фильтрация по создателю (id юзера)
+GET {{baseUrl}}/advertisements/?creator=3
+Content-Type: application/json
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+Content-Type: application/json
