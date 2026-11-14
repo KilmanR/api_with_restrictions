@@ -19,9 +19,11 @@ class AdvertisementViewSet(ModelViewSet):
     filterset_class = AdvertisementFilter
 
     def get_queryset(self):
-        """Чужие черновики (DRAFT) не показываем никому, кроме автора."""
+        """Админ видит всё; чужие черновики (DRAFT) — только автору."""
         user = self.request.user
         queryset = Advertisement.objects.all()
+        if user.is_authenticated and user.is_superuser:
+            return queryset
         if not user.is_authenticated:
             return queryset.exclude(status=AdvertisementStatusChoices.DRAFT)
         return queryset.filter(
